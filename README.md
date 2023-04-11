@@ -1,8 +1,8 @@
-MERN AI Image Generation App
+<h1>MERN AI Image Generation App</h1>
 
 This is a full-stack web application built using the MERN stack (MongoDB, Express, React, Node.js) that allows users to generate AI-generated images similar to those produced by OpenAI's DALL-E.
 
-Features:
+<h2>Features:</h2>
 
 •User authentication using JWT
 
@@ -12,7 +12,7 @@ Features:
 
 •Full CRUD functionality for images and comments
 
-Technologies Used:
+<h2>Technologies Used: </h2>
 
 •MongoDB for database management
 
