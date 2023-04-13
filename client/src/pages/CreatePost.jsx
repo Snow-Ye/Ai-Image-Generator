@@ -19,7 +19,7 @@ const CreatePost = () => {
   const handleSubmit = () => {
 
   };
-  
+
   const handleChange = (e) => {
 
   };
@@ -40,7 +40,7 @@ const CreatePost = () => {
       <form className = "mt-16 max-w-3x1" onSubmit = {handleSubmit}>
         <div className = "flex flex-col gap-5">
           <FormField 
-            LabelName = "Your name"
+            labelName = "Your name"
             type = "text"
             name = "name"
             placeholder = "John Doe"
@@ -48,7 +48,7 @@ const CreatePost = () => {
             handleChange = {handleChange}
           />
           <FormField 
-            LabelName = "Prompt"
+            labelName = "Prompt"
             type = "text"
             name = "Prompt"
             placeholder = "A Snowboarder on a mountain"
@@ -57,6 +57,25 @@ const CreatePost = () => {
             isSurpriseMe
             handleSurpriseMe = {handleSurpriseMe}
           />
+          
+          <div className = "relative bg-gray-50 border border-gray-300 text-gray-900 ext-sm rounded-lg focus: ring-blue-500 focus:border-blue-500 w-64 p-3 h-64 flex justify-center items-center" >
+            {form.photo ?(
+              <img
+                src = {form.photo}
+                alt = {form.prompt}
+                className = "w-full h-full object-contain"
+              />
+            ):(
+              <img
+                src = {preview}
+                alt = "preview"
+                className = "w-9/12 h-9/12 object-contain opacity-40"
+                />
+            )
+          }
+            
+
+          </div>
 
           
         </div>
