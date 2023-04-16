@@ -1,23 +1,63 @@
-import React, {useEffect, useState} from 'react'
-import {Loader, Card, FormField} from '../components'
+import React, { useEffect, useState } from 'react';
+import { Card, FormField, Loader } from '../components';
 
-const RenderCards = ({data, title}) => {
-  if (data?.length > 0){
-    return data.map((post) => <Card key={post._id} {...post} />)
+const RenderCards = ({ data, title }) => {
+  if (data?.length > 0) {
+    return (
+      data.map((post) => <Card key={post._id} {...post} />)
+    );
   }
+
   return (
-    <h2 className = "mt-5 font-bold text-[#6449ff] text-xl uppercase">{title}</h2> 
-  )
-}
+    <h2 className="mt-5 font-bold text-[#6469ff] text-xl uppercase">{title}</h2>
+  );
+};
 // 这个组件应该是渲染的文字输入的图片结果.如果有data 就一个一个渲染 如果没有 那就只return 用户输入的{title}
 
-const Home = () => {
+  const Home = () => {
   const [loading, setLoading] = useState(false);
   const [allPosts, setAllPosts] = useState(null);
-  const [searchText, useSearchText] = useState('abc')
+  const [searchText, useSearchText] = useState('')
+  const [searchTimeout, setSearchTimeout] = useState(null);
+  const [searchedResults, setSearchedResults] = useState(null);
+  
+  const fetchPosts = async () => {
+    setLoading(true);
 
+    try {
+      const response = await fetch('https://localhost:8080/api/v1/post', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
 
+      if (response.ok) {
+        const result = await response.json();
+        setAllPosts(result.data.reverse());
+      }
+    } catch (err) {
+      alert(err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  useEffect(() => {
+    fetchPosts();
+  }, []);
+
+ const handleSearchChange = (e) => {
+    clearTimeout(searchTimeout);
+    setSearchText(e.target.value);
+
+    setSearchTimeout(
+      setTimeout(() => {
+        const searchResult = allPosts.filter((item) => item.name.toLowerCase().includes(searchText.toLowerCase()) || item.prompt.toLowerCase().includes(searchText.toLowerCase()));
+        setSearchedResults(searchResult);
+      }, 500),
+    );
+  };
   return (
     <section className = "max-w-7x1 mx-auto">
       <div>
@@ -27,8 +67,14 @@ const Home = () => {
 
 
       <div className = "mt-16">
-        <FormField /> 
-        {/* 暂时不知道FormField是干嘛的 */}
+        <FormField 
+          LabelName = "search Posts"
+          type = "text"
+          name = "text"
+          placeholder = "search Posts"
+          value = {searchText}
+          handleChange={handleSearchChange}
+        />  
       </div>
       <div className = "mt-10">
         {loading ?(
@@ -49,14 +95,14 @@ const Home = () => {
               {/* 规范了不同屏幕下的不同大小 */}
               {searchText ?(
               <RenderCards
-                data = {[]}
+                data={searchedResults}
                 // 未来会变成array of actual data 现在就是pass一个string
                 title = "No search results found"
                 // 如果没有data 就会return "No search results found"
                 />
                 ) : (
                   <RenderCards
-                  data = {[]}
+                  data = {allPosts}
                   title = "No posts found"
                   />
                 )}

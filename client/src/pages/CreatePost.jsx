@@ -46,19 +46,38 @@ const CreatePost = () => {
     }
   }
 
-  const handleSubmit = () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    // Prevent the brower to automatically reload the page
+    if (form.prompt && form.photo) {
+      setLoading(true);
 
+      try{
+        const response = await fetch('http://localhost:8080/api/v1/post', {
+          method: "POST",
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ ...form }),
+      });
+      await response.json();
+      alert("Success")
+      navigate('/');
+     } catch(err) {
+        alert(err)
+      } finally {
+        setLoading(false);
+      }
+    }else{
+      alert("Please enter a prompt and generate a image");
+    }
   };
 
-  const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value })
-  };
+  const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
-
-  const handleSurpriseMe = (e) => {
-    const randomPrompt = getRandomPrompt(form.prompt)
-    setForm({ ...form, prompt: randomPrompt })
-
+  const handleSurpriseMe = () => {
+    const randomPrompt = getRandomPrompt(form.prompt);
+    setForm({ ...form, prompt: randomPrompt });
   };
 
   return (
@@ -80,10 +99,11 @@ const CreatePost = () => {
             value={form.name}
             handleChange={handleChange}
           />
+          {/* 这里会fill进form的prompt */}
           <FormField
             labelName="Prompt"
             type="text"
-            name="Prompt"
+            name="prompt"
             placeholder="A Snowboarder on a mountain"
             value={form.prompt}
             handleChange={handleChange}

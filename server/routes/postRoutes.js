@@ -1,43 +1,47 @@
-import express from 'express';
-import * as dotenv from 'dotenv';
-import { v2 as cloudinary } from 'cloudinary';
+import express from "express";
+import * as dotenv from "dotenv";
+import { v2 as cloudinary } from "cloudinary";
 
-import Post from '../mongodb/models/post.js';
+import Post from "../mongodb/models/post.js";
 
 dotenv.config();
 
 const router = express.Router();
 
-// cloudinary.config({
-//   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-//   api_key: process.env.CLOUDINARY_API_KEY,
-//   api_secret: process.env.CLOUDINARY_API_SECRET,
-// });
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
-// router.route('/').get(async (req, res) => {
-//   try {
-//     const posts = await Post.find({});
-//     res.status(200).json({ success: true, data: posts });
-//   } catch (err) {
-//     res.status(500).json({ success: false, message: 'Fetching posts failed, please try again' });
-//   }
-// });
+// GET ALL POSTS
+router.route("/").get(async (req, res) => {
+  try {
+    const posts = await Post.find({});
+    res.status(200).json({ success: true, daa: posts });
+  } catch (err) {
+    res.status(500).json({ success: false, message: error });
+  }
+});
 
-// router.route('/').post(async (req, res) => {
-//   try {
-//     const { name, prompt, photo } = req.body;
-//     const photoUrl = await cloudinary.uploader.upload(photo);
+// CREATE A POST
+router.route("/").post(async (req, res) => {
+  try {
+    const { name, prompt, photo } = req.body;
+    const photoUrl = await cloudinary.uploader.upload(photo);
 
-//     const newPost = await Post.create({
-//       name,
-//       prompt,
-//       photo: photoUrl.url,
-//     });
+    const newPost = await Post.create({
+      name,
+      prompt,
+      photo: photoUrl.url,
+    });
 
-//     res.status(200).json({ success: true, data: newPost });
-//   } catch (err) {
-//     res.status(500).json({ success: false, message: 'Unable to create a post, please try again' });
-//   }
-// });
+    res.status(201).json({ success: true, data: newPost });
+    // res.status(201) 表示 HTTP 状态码为 201 Created，用于表示新资源已经成功创建。
+  } catch (err) {
+    res.status(500).json({ success: false, message: error });
+    // res.status(500) 表示 HTTP 状态码为 500 Internal Server Error，用于表示服务器内部错误或意外情况。
+  }
+});
 
 export default router;
