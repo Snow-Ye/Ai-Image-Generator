@@ -1,6 +1,7 @@
 <h1>MERN AI Image Generation App</h1>
 
 <a href="https://visualyestudio.com/">https://visualyestudio.com/</a>
+<br></br>
 This is a full-stack web application built using the MERN stack (MongoDB, Express, React, Node.js) that allows users to generate AI-generated images similar to those produced by OpenAI's DALL-E.
 
 <h2>Features:</h2>
