@@ -24,7 +24,7 @@ const CreatePost = () => {
         // 在发送请求之前 函数会先把'setGeneratingImg的状态设置为true。这个状态用于控制页面的加载状态，当请求发送出去时，页面上会显示一个加载动画，以提示用户正在进行生成操作。
         setGeneratingImg(true);
         // 如果用户输入了提示，函数会通过fetch方法发送一个Post请求到服务器的/api/v1/dalle路径。 在请求头中设置了请求类型和请求头部信息，包括了 'Content-Type': 'application/json'，该信息指定了请求内容的类型为 JSON 格式。请求体中包含了一个 JSON 对象，该对象的 prompt 属性的值为表单中填写的 Prompt。
-        const response = await fetch('http://localhost:8080/api/v1/dalle', {
+        const response = await fetch('https://yes-ai-image-generator.onrender.com/api/v1/dalle', {
           method: "POST",
           headers: {
             'Content-Type': 'application/json',
@@ -53,7 +53,7 @@ const CreatePost = () => {
       setLoading(true);
 
       try{
-        const response = await fetch('http://localhost:8080/api/v1/post', {
+        const response = await fetch('https://yes-ai-image-generator.onrender.com/api/v1/post', {
           method: "POST",
           headers: {
             'Content-Type': 'application/json',

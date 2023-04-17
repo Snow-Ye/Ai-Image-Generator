@@ -12,20 +12,17 @@ const RenderCards = ({ data, title }) => {
     <h2 className="mt-5 font-bold text-[#6469ff] text-xl uppercase">{title}</h2>
   );
 };
-// 这个组件应该是渲染的文字输入的图片结果.如果有data 就一个一个渲染 如果没有 那就只return 用户输入的{title}
 
-  const Home = () => {
+const Home = () => {
   const [loading, setLoading] = useState(false);
   const [allPosts, setAllPosts] = useState(null);
-  const [searchText, useSearchText] = useState('')
+
+  const [searchText, setSearchText] = useState('');
   const [searchTimeout, setSearchTimeout] = useState(null);
   const [searchedResults, setSearchedResults] = useState(null);
-  
-  const fetchPosts = async () => {
-    setLoading(true);
 
     try {
-      const response = await fetch('https://localhost:8080/api/v1/post', {
+      const response = await fetch('https://yes-ai-image-generator.onrender.com/api/v1/post', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -93,28 +90,23 @@ const RenderCards = ({ data, title }) => {
             )}
             <div className = "grid lg:grid-cols-4 sm:grid-cols-3 xs:grid-cols-2 grid-cols-1 gap-3">
               {/* 规范了不同屏幕下的不同大小 */}
-              {searchText ?(
-              <RenderCards
-                data={searchedResults}
-                // 未来会变成array of actual data 现在就是pass一个string
-                title = "No search results found"
-                // 如果没有data 就会return "No search results found"
+            {searchText ? (
+                <RenderCards
+                  data={searchedResults}
+                  title="No Search Results Found"
                 />
-                ) : (
-                  <RenderCards
-                  data = {allPosts}
-                  title = "No posts found"
-                  />
-                )}
-                
-
+              ) : (
+                <RenderCards
+                  data={allPosts}
+                  title="No Posts Yet"
+                />
+              )}
             </div>
           </>
         )}
       </div>
-      
     </section>
-  )
-}
+  );
+};    
 
-export default Home
+export default Home;
