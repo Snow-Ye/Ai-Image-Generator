@@ -1,4 +1,4 @@
-<h1>MERN AI Image Generation App</h1>
+<h1>Full-Stack AI Image Generation App</h1>
 
 <a href="https://visualyestudio.com/">https://visualyestudio.com/</a>
 <br></br>
@@ -24,3 +24,6 @@
 •React for the front-end user interface
 
 •Node.js for server-side JavaScript runtime environment
+  
+  •Tailwind CSS for styling
+•Cloudinary for image storage
